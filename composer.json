@@ -1,0 +1,15 @@
+{
+    "name": "jtaskila/feather-di",
+    "version": "1.0",
+    "authors": [
+        {
+            "name": "Juho Taskila",
+            "email": "juho.taskila@hotmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Feather\\Di\\": "src/"
+        }
+    }
+}
