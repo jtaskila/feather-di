@@ -192,16 +192,14 @@ class Container
 
         foreach ($constructorParams as $param) {
             $type = $param->getType();
-
-            if ($type->getName() == FeatherDi::class) {
-
+            
+            if ($type->getName() == self::class) {
                 /**
                  * When the DI container itself is needed as a dependency,
                  * return the singleton instance of it.
                  */
                 $dependencies[] = self::getInstance();
             } else if ($type instanceof ReflectionNamedType && !$type->isBuiltin() && !\array_key_exists($param->getName(), $params)) {
-
                 /**
                  * Instantiating an object. First checking the cache array if the
                  * object already exists and request is not for an unique object.
@@ -212,8 +210,8 @@ class Container
                 } else {
                     $instance = $this->initObject($type->getName());                    
                     $dependencies[] = $instance;   
-
                     if (!$unique) {
+                        
                         $this->objects[$type->getName()] = $instance;
                     }
                 }
@@ -235,6 +233,7 @@ class Container
          */
         try {
             $instance = (object)$reflectionClass->newInstance(...$dependencies);
+            $this->objects[$class] = $instance;
         } catch (ReflectionException $e) {
             throw new DiException($e->getMessage());
         }
